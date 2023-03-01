@@ -1,0 +1,59 @@
+//operadores  de cadena
+
+db.discos.find();
+
+//concatenacion
+//unir varias cadenas de texto
+db.discos.aggregate(
+  {
+  $addFields: {
+    concatenacion:{$concat: ["$artista"," - ", "$titulo"]}
+  }}
+);
+
+//$split dividir un string por ciertos parametros
+db.discos.aggregate(
+  {
+  $addFields: {
+    concatenacion:{$concat: ["$artista"," - ", "$titulo"]},
+    //$split
+    split_: {$split: ["$titulo", " "]}
+  }}
+);
+
+//indexOfBytes
+db.discos.aggregate(
+  {
+  $addFields: {
+    concatenacion:{$concat: ["$artista"," - ", "$titulo"]},
+    //$split
+    split_: {$split: ["$titulo", " "]},
+    //$indexOfBytes
+    indiceOcurrencia:{$indexOfBytes:["Cristian Campos campos campos camp", "Campos"]}
+  }}
+);
+//buscar posiciones en una cadena y filtrar
+db.discos.aggregate([
+  {
+  $addFields: {
+    filtro:{$indexOfBytes:["$titulo", "the"]}
+  }},
+  {
+  $match: {
+    filtro:{$gte:0}
+  }}
+]);
+
+//compara dos cadenas a nivel de bytes
+//son iguales devuelve un 0
+db.discos.aggregate(
+  {
+  $addFields: {
+    concatenacion:{$concat: ["$artista"," - ", "$titulo"]},
+    //$split
+    split_: {$split: ["$titulo", " "]},
+    //$indexOfBytes
+    indiceOcurrencia:{$indexOfBytes:["Cristian Campos campos campos camp", "Campos"]},
+    compracionCadenas: {$strcasecmp: ["cris", "acris"]}
+  }});
+  //uno la cadena de la izquierda es mas grande que la derecha regresa un 1
