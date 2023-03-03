@@ -1,7 +1,5 @@
 //operadores  de cadena
-
 db.discos.find();
-
 //concatenacion
 //unir varias cadenas de texto
 db.discos.aggregate(
@@ -54,6 +52,74 @@ db.discos.aggregate(
     split_: {$split: ["$titulo", " "]},
     //$indexOfBytes
     indiceOcurrencia:{$indexOfBytes:["Cristian Campos campos campos camp", "Campos"]},
-    compracionCadenas: {$strcasecmp: ["cris", "acris"]}
+    compracionCadenas: {$strcasecmp: ["cris", "acris"]},
+    minusculas: {$toLower: ["CRISTIAN CAMPOS"]},
+    mayusculas: {$toUpper: ["cristian campos diaz"]},
+    caracteres: {$strLenCP: ["Hola mundo"]},
+    concatenacion: {$concat: ["Hola mundo tiene:", {$toString: {$strLenCP: ["Hola Mundo"]}}]}
   }});
   //uno la cadena de la izquierda es mas grande que la derecha regresa un 1
+
+  //$regex
+  db.estudiantes.find();
+
+  //sabiendo que el nombre esta en un solo campo
+  //buscar los estudiantes con el apellido garcia
+
+  db.estudiantes.aggregate([
+    //hacer split
+    //separar el nombre del apellido
+    {
+    $addFields: {
+      nombre_split:{$split: ["$nombre", " "]}
+    }},
+    {$match: {nombre_split: {$in: ["García"]}}}
+  ]);
+
+  //regex
+  /*operador que nos permite utilizar patrones en las cadenas */
+  db.estudiantes.aggregate([
+    {$match: { nombre: {$regex: /garcía/, $options: "i"}}}
+  ]);
+
+  
+  db.pacientes.find();
+
+  db.pacientes.aggregate([
+    {
+    $project: {
+      fecha_nacimiento:1,
+      _id: 0,
+      diaDelAño:{$dayOfYear: "$fecha_nacimiento"},
+      diaDelMes: {$dayOfMonth: "$fecha_nacimiento"},
+      diaDeLaSemana:{$dayOfWeek: "$fecha_nacimiento"},
+      //$year
+      año:{$year: "$fecha_nacimiento"},
+      //$month
+      mes:{$month: "$fecha_nacimiento"},
+      //$week
+      semana:{$week: "$fecha_nacimiento"},
+      //$hour
+      hora:{$hour: "$fecha_nacimiento"},
+      //$minute
+      minutos:{$minute: new Date()},
+      //$second
+      segundos:{$second: new Date()},
+      //$milisecond
+      milisegundos:{$millisecond: new Date()},
+      //fechaString
+      fechaString:{$dateToString: {format: "%d-%m-%Y %H:%M:%S",date: new Date(), timezone: "America/Mexico_City"}}
+    }}
+  ]);
+
+
+
+db.pacientes.aggregate([
+  {
+  $addFields: {
+    año:{$year: "$fecha_nacimiento"}
+  }},
+  {$match:{
+    año:{$eq: 1980}
+  }}
+]);

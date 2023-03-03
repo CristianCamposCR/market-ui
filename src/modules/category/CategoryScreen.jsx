@@ -3,14 +3,19 @@ import { useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 import DataTable from 'react-data-table-component'
 import ButtomCircle from '../../shared/components/ButtomCircle'
+import Loading from '../../shared/components/Loading'
 
 const CategoryScreen = () => {
     const [categories, setCategories] =useState([]);
     const [selectedCategory, setSelectedCategory] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [filterText, setFilterText] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    
+    const filteredCategories = categories.filter(
+        category => category.name && category.name.toLowerCase().includes(filterText.toLowerCase)
+    );
     
   return (
    <Card>
@@ -27,7 +32,7 @@ const CategoryScreen = () => {
             columns={[]}
             data={categories}
             progressPending={isLoading}
-            progressComponent={<>LOADING</>}
+            progressComponent={<Loading/>}
             noDataComponent={"sin registros"}
             pagination
             paginationComponentOptions={{}}

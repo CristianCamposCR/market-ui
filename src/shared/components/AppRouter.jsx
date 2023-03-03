@@ -22,7 +22,7 @@ export const AppRouter = () => {
                 <Container style={{ marginTop: '20px' }}>
                   <Routes>
                     <Route path="products" element={<>PRODUCTS</>} />
-                    <Route path="categpry" element={CategoryScreen} />
+                    <Route path="category" element={CategoryScreen} />
                     <Route index element={<>INDEX</>} />
                     <Route path="*" element={<>404</>} />
                   </Routes>
