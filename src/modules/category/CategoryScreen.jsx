@@ -6,6 +6,7 @@ import { ButtonCircle } from '../../shared/components/ButtonCircle'
 import { Loading } from '../../shared/components/Loading'
 import { FilterComponent } from '../../shared/components/FilterComponent'
 import Swal from 'sweetalert2'
+import { CategoryForm } from './components/CategoryForm'
 
 const options = {
     rowsPerPageText: 'Registros por página',
@@ -29,7 +30,8 @@ export const CategoryScreen = () => {
             title: "Algo malo paso :(",
             text: "No se han podido obtener las categorias",
             icon:"error",
-            confirmButtonText: "Acpetar"
+            confirmButtonText: "Acpetar",
+            //backdrop: true
         })
     }
     const getCategories = async () => {
@@ -122,11 +124,15 @@ export const CategoryScreen = () => {
                 <Col className='text-end'>
                     <ButtonCircle
                         type={'btn btn-outline-success'}
-                        onClick={() => { }}
+                        onClick={() =>setIsOpen(true)}
                         icon='plus'
                         size={16}
                     />
-
+                    <CategoryForm
+                        isOpen={isOpen}
+                        onClose={() => setIsOpen(false)}
+                        setCategories={setCategories}
+                    />
                 </Col>
             </Row>
         </Card.Header>
