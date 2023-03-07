@@ -5,14 +5,14 @@ import { AuthContext } from '../../modules/auth/authContext';
 import { LoginScreen } from '../../modules/auth/LoginScreen';
 import PublicNavbar from '../publicNavbar/PublicNavbar';
 import AdminNavbar from './AdminNavbar';
-import CategoryScreen from '../../modules/category/CategoryScreen';
+import {CategoryScreen} from '../../modules/category/CategoryScreen';
 
 export const AppRouter = () => {
   const { user } = useContext(AuthContext);
   return (
     <Router>
       <Routes>
-        <Route path="/auth" element={<LoginScreen />} />
+        <Route path="/auth" element={<LoginScreen/>} />
         <Route
           path="/*"
           element={
@@ -22,7 +22,7 @@ export const AppRouter = () => {
                 <Container style={{ marginTop: '20px' }}>
                   <Routes>
                     <Route path="products" element={<>PRODUCTS</>} />
-                    <Route path="category" element={CategoryScreen} />
+                    <Route path="category" element={<CategoryScreen/>} />
                     <Route index element={<>INDEX</>} />
                     <Route path="*" element={<>404</>} />
                   </Routes>

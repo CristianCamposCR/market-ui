@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, FormControl, InputGroup, Row } from 'react-bootstrap';
 import FeatherIcon from 'feather-icons-react'
-const FilerComponent = ({ filterText, onFilter, onClear }) => {
+export const FilterComponent = ({ filterText, onFilter, onClear }) => {
     return (
         <Row>
             <Col>
@@ -21,5 +21,3 @@ const FilerComponent = ({ filterText, onFilter, onClear }) => {
         </Row>
     );
 }
-
-export default FilerComponent
