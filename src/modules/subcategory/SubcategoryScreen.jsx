@@ -5,9 +5,6 @@ import AxiosClient from '../../shared/plugins/axios'
 import { ButtonCircle } from '../../shared/components/ButtonCircle'
 import { Loading } from '../../shared/components/Loading'
 import { FilterComponent } from '../../shared/components/FilterComponent'
-import Swal from 'sweetalert2'
-import { CategoryForm } from './components/CategoryForm'
-
 import Alert, {
     confirmMsj,
     confirmTitle,
@@ -15,55 +12,45 @@ import Alert, {
     successTitle,
     errorMsj,
     errorTitle,
-  } from "../../shared/plugins/alerts";
-import { EditCategoryForm } from './components/EditCategoryForm'
+} from "../../shared/plugins/alerts"
+import { SubcategoryForm } from './components/SubcategoryForm'
+import { EditSubcategoryForm } from './components/EditSubcategoryForm'
 
 const options = {
     rowsPerPageText: 'Registros por página',
     rangeSeparatorText: 'de'
 }
 
-export const CategoryScreen = () => {
-    const [categories, setCategories] = useState([])
-    const [selectedCategory, setSelectedCategory] = useState({})
+export const SubcategoryScreen = () => {
+    const [subcategories, setSubcategories] = useState([])
+    const [selectedSubcategory, setSelectedSubcategory] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [filterText, setFilterText] = useState("")
     const [isOpen, setIsOpen] = useState(false)
 
-    const filteredCategories = categories.filter(
-        category => category.name && category.name.toLowerCase().includes(filterText.toLowerCase())
+    const filteredSubcategories = subcategories.filter(
+        subcategory => subcategory.name && subcategory.name.toLowerCase().includes(filterText.toLowerCase())
     )
 
-    //alerta
-    const alertErr=()=>{
-        Swal.fire({
-            title: "Algo malo paso :(",
-            text: "No se han podido obtener las categorias",
-            icon:"error",
-            confirmButtonText: "Acpetar",
-            //backdrop: true
-        })
-    }
 
-
-    const getCategories = async () => {
+    const getSubcategories = async () => {
         try {
             setIsLoading(true)
-            const data = await AxiosClient({ url: '/category/' })
-            if (!data.error) setCategories(data.data)
+            const data = await AxiosClient({ url: '/subcategory/' })
+            if (!data.error) setSubcategories(data.data)
         } catch (error) {
-           alertErr();
+            //alerta de error al cargar subcategorias
         } finally {
             setIsLoading(false)
         }
     }
-    //Se ejecuta después del return
-    useEffect(() => {
-        getCategories()
-    }, [])
-    /*Recibe una dependencia, si está vacío solo se renderiza una vez, si no, se ejecuta cada que haya un cambio en la dependencia*/
 
+    useEffect(() => {
+        getSubcategories()
+    }, [])
+
+    //activar o desactivar sbcategorias
     const enableOrDisable = (row) => {
         console.log('Row', row);
         Alert.fire({
@@ -85,7 +72,7 @@ export const CategoryScreen = () => {
                 try {
                     const response = await AxiosClient({
                         method: 'PATCH',
-                        url: '/category/',
+                        url: '/subcategory/',
                         data: JSON.stringify(row),
                     })
                     if (!response.error) {
@@ -108,7 +95,7 @@ export const CategoryScreen = () => {
                         confirmButtonText: 'Aceptar'
                     })
                 } finally {
-                    getCategories()
+                    getSubcategories()
                 }
             }
         })
@@ -127,13 +114,16 @@ export const CategoryScreen = () => {
         )
     }, [filterText])
 
+
+
+
     const columns = React.useMemo(() => [{
         name: '#',
         cell: (row, index) => <div>{index + 1}</div>,
         sortable: true,
     },
     {
-        name: 'Categoría',
+        name: 'Subcategoria',
         cell: (row) => <div>{row.name}</div>,
         sortable: true,
         selector: (row) => row.name
@@ -153,7 +143,7 @@ export const CategoryScreen = () => {
                 size={16}
                 onClick={() => {
                     setIsEditing(true)
-                    setSelectedCategory(row)
+                    setSelectedSubcategory(row)
                 }}
             >
 
@@ -162,7 +152,7 @@ export const CategoryScreen = () => {
                 <ButtonCircle
                     icon='trash-2'
                     type={'btn btn-outline-danger btn-circle'}
-                    size={16}   
+                    size={16}
                     onClick={() => {
                         enableOrDisable(row)
                     }}
@@ -180,10 +170,11 @@ export const CategoryScreen = () => {
         </>//fragment
     }
     ])
+
     return <Card>
         <Card.Header>
             <Row>
-                <Col>Categorias</Col>
+                <Col>Subcategorias</Col>
                 <Col className='text-end'>
                     <ButtonCircle
                         type={'btn btn-outline-success'}
@@ -191,24 +182,24 @@ export const CategoryScreen = () => {
                         icon='plus'
                         size={16}
                     />
-                    <CategoryForm
+                    <SubcategoryForm
                         isOpen={isOpen}
                         onClose={() => setIsOpen(false)}
-                        setCategories={setCategories}
+                        setSubcategories={setSubcategories}
                     />
-                   <EditCategoryForm
-                    isOpen={isEditing}
-                    onClose={()=> setIsEditing(false)}
-                    setCategories={setCategories}
-                    category={selectedCategory}
-                   />
+                    <EditSubcategoryForm
+                        isOpen={isEditing}
+                        onClose={()=> setIsEditing(false)}
+                        setSubcategories={setSubcategories}
+                        subcategory={selectedSubcategory}
+                    />
                 </Col>
             </Row>
         </Card.Header>
         <Card.Body>
             <DataTable
                 columns={columns}
-                data={filteredCategories}
+                data={filteredSubcategories}
                 progressPending={isLoading}
                 progressComponent={<Loading />}
                 noDataComponent={'Sin registros'}
