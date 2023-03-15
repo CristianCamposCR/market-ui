@@ -29,7 +29,7 @@ export const EditSubcategoryForm = ({ isOpen, setSubcategories, onClose, subcate
             id: 0,
             name: '',
             status: false,
-            category: {}
+            category_id: 0
         },
         validationSchema: yup.object().shape({
             name: yup.string().required("Campo obligatorio").min(4, 'Minimo 4 caracteres'),
@@ -89,11 +89,11 @@ export const EditSubcategoryForm = ({ isOpen, setSubcategories, onClose, subcate
     })
 
     React.useMemo(() => {
-        const { name, id, status, category_id } = subcategory
+        const { name, id, status, ...category} = subcategory
         form.values.name = name
         form.values.id = id
         form.values.status = status
-        form.values.category_id = category_id
+        form.values.category = category
     }, [subcategory])
 
     const handleClose = () => {
@@ -134,6 +134,9 @@ export const EditSubcategoryForm = ({ isOpen, setSubcategories, onClose, subcate
                             value={form.values.category_id}
                             onChange={form.handleChange}
                         >
+                            <option>
+                                {subcategory.category.name}
+                            </option>
                             {categories.map(category_id => (
                                 <option key={category_id.id} value={category_id.id} onChange={form.handleChange}>{category_id.name}</option>
                             ))}

@@ -23,7 +23,7 @@ const options = {
 
 export const SubcategoryScreen = () => {
     const [subcategories, setSubcategories] = useState([])
-    const [selectedSubcategory, setSelectedSubcategory] = useState({})
+    const [selectedSubcategory, setSelectedSubcategory] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [filterText, setFilterText] = useState("")
@@ -129,6 +129,12 @@ export const SubcategoryScreen = () => {
         selector: (row) => row.name
     },
     {
+        name: 'Categoria',
+        cell: (row) => <div>{row.category.name}</div>,
+        sortable: true,
+        selector: (row) => row.status
+    },
+    {
         name: 'Estado',
         cell: (row) => row.status ? (<Badge bg='success'>Activo</Badge>) : (<Badge bg='danger'>Inactivo</Badge>),
         sortable: true,
@@ -178,7 +184,7 @@ export const SubcategoryScreen = () => {
                 <Col className='text-end'>
                     <ButtonCircle
                         type={'btn btn-outline-success'}
-                        onClick={() =>setIsOpen(true)}
+                        onClick={() => setIsOpen(true)}
                         icon='plus'
                         size={16}
                     />
@@ -187,12 +193,12 @@ export const SubcategoryScreen = () => {
                         onClose={() => setIsOpen(false)}
                         setSubcategories={setSubcategories}
                     />
-                    <EditSubcategoryForm
+                    {selectedSubcategory && <EditSubcategoryForm
                         isOpen={isEditing}
-                        onClose={()=> setIsEditing(false)}
+                        onClose={() => setIsEditing(false)}
                         setSubcategories={setSubcategories}
                         subcategory={selectedSubcategory}
-                    />
+                    />}
                 </Col>
             </Row>
         </Card.Header>
