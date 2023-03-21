@@ -29,7 +29,7 @@ export const EditSubcategoryForm = ({ isOpen, setSubcategories, onClose, subcate
             id: 0,
             name: '',
             status: false,
-            category_id: 0
+            category_id: subcategory.category.id
         },
         validationSchema: yup.object().shape({
             name: yup.string().required("Campo obligatorio").min(4, 'Minimo 4 caracteres'),
@@ -134,7 +134,7 @@ export const EditSubcategoryForm = ({ isOpen, setSubcategories, onClose, subcate
                             value={form.values.category_id}
                             onChange={form.handleChange}
                         >
-                            <option>
+                            <option key={subcategory.category.id} value={subcategory.category.id}>
                                 {subcategory.category.name}
                             </option>
                             {categories.map(category_id => (
