@@ -135,7 +135,7 @@ export const EditSubcategoryForm = ({ isOpen, setSubcategories, onClose, subcate
                             onChange={form.handleChange}
                         >
                             <option key={subcategory.category.id} value={subcategory.category.id}>
-                                {subcategory.category.name}
+                                {form.values.category_id}
                             </option>
                             {categories.map(category_id => (
                                 <option key={category_id.id} value={category_id.id} onChange={form.handleChange}>{category_id.name}</option>

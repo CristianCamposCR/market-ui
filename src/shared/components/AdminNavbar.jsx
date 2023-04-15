@@ -25,7 +25,7 @@ const AdminNavbar = () => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Link to={"/"} className="ms-1 nav-link">Productos</Link>
+            <Link to={"/products"} className="ms-1 nav-link">Productos</Link>
             <Link to={"/category"} className="ms-1 nav-link">Categorias</Link>
             <Link to={"/subcategory"} className="ms-1 nav-link">Subcategorias</Link>
 
