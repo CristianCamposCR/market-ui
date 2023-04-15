@@ -7,6 +7,7 @@ import PublicNavbar from '../publicNavbar/PublicNavbar';
 import AdminNavbar from './AdminNavbar';
 import {CategoryScreen} from '../../modules/category/CategoryScreen';
 import { SubcategoryScreen } from '../../modules/subcategory/SubcategoryScreen';
+import { ProductScreen } from '../../modules/product/ProductScreen';
 
 export const AppRouter = () => {
   const { user } = useContext(AuthContext);
@@ -22,7 +23,7 @@ export const AppRouter = () => {
                 <AdminNavbar/>
                 <Container style={{ marginTop: '20px' }}>
                   <Routes>
-                    <Route path="products" element={<>PRODUCTS</>} />
+                    <Route path="products" element={<ProductScreen/>} />
                     <Route path="category" element={<CategoryScreen/>} />
                     <Route path="subcategory" element={<SubcategoryScreen/>} />
                     <Route index element={<>INDEX</>} />

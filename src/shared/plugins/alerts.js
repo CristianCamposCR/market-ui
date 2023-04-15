@@ -4,7 +4,7 @@ import withReactContent from 'sweetalert2-react-content';
 const Alert = withReactContent(Swal);
 
 export const confirmMsj =
-  'Le solicitamos esperar un momento a que la solicitud termine';
+  'Le pedimos esperar un momento a que la solicitud termine';
 export const confirmTitle = '¿Está seguro de realizar la acción?';
 export const successMsj =
   'La actividad solicitada, se ha realizado correctamente';
